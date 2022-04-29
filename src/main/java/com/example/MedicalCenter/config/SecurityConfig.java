@@ -32,6 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/updateTestResult").permitAll()
                 .antMatchers("/deleteTestResult").permitAll()
                 .antMatchers("/getPatientPersonalData").permitAll()
+                .antMatchers("/uploadImage").permitAll()
+                .antMatchers("/deleteImage").permitAll()
+                .antMatchers("/downloadImage").permitAll()
                 .anyRequest().authenticated();
     }
 }

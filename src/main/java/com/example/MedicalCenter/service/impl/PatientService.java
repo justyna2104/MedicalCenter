@@ -11,17 +11,20 @@ import com.example.MedicalCenter.repo.ConsentRepository;
 import com.example.MedicalCenter.repo.PatientRepository;
 import com.example.MedicalCenter.repo.ResearchProjectRepository;
 import com.example.MedicalCenter.service.IPatientService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
-import java.util.logging.Logger;
+
+
 
 @Service
 public class PatientService implements IPatientService {
 
-    private final static Logger LOGGER = Logger.getLogger(PatientService.class.getName());
+    private final static Logger LOGGER = LoggerFactory.getLogger(PatientService.class);
 
     @Autowired
     private PatientRepository patientRepository;
@@ -75,11 +78,12 @@ public class PatientService implements IPatientService {
                     researchProjectRepository.save(researchProject);
                     LOGGER.info("Patient has been bind with research project");
                 }, () -> {
-                    LOGGER.info("There is no consent to bind this patient with this research project");
+                    LOGGER.warn("There is no consent to bind patient with this research project");
                     throw new ConsentNotFoundException("Patient has not given consent");
                 });
     }
 
+    @Transactional
     @Override
     public void unbindPatientWithResearchProject(long patientId, long researchProjectId) {
 

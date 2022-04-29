@@ -22,6 +22,9 @@ public class Consent {
     @JsonIgnore
     private Patient patient;
 
+    @OneToOne(mappedBy = "consent")
+    private ConsentImage consentImage;
+
     public Consent(ResearchProject researchProject, Patient patient) {
         this.researchProject = researchProject;
         this.patient = patient;
@@ -53,4 +56,11 @@ public class Consent {
         this.patient = patient;
     }
 
+    public ConsentImage getConsentImage() {
+        return consentImage;
+    }
+
+    public void setConsentImage(ConsentImage consentImage) {
+        this.consentImage = consentImage;
+    }
 }

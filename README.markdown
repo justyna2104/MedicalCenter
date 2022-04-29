@@ -1,20 +1,22 @@
 
 ## API Reference
 
-#### Get all items
+#### Add consent
+Takes ids of patient and research project and creates new consent
 
 ```http
-  GET /api/items
+  POST /addConsent
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `api_key` | `string` | **Required**. Your API key |
+| Parameter | Type     | 
+| :-------- | :------- | 
+| `patientId` | `long` |  
+| `patientId` | `string`|
 
 #### Get item
 
 ```http
-  GET /api/items/${id}
+  GET /withdrawConsent
 ```
 
 | Parameter | Type     | Description                       |
