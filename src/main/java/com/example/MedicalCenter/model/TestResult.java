@@ -21,7 +21,7 @@ public class TestResult {
     @JsonIgnore
     private Patient patient;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "LaboratoryTestId", referencedColumnName = "id")
     private LaboratoryTest laboratoryTest;
 

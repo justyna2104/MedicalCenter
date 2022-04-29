@@ -16,12 +16,12 @@ public class LaboratoryTest {
     private LocalDateTime dateAndTime;
 
     @ManyToOne
-    @JoinColumn(name = "patientId", nullable = true)
+    @JoinColumn(name = "patientId")
     @JsonIgnore
     private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name = "researchProjectId", nullable = true)
+    @JoinColumn(name = "researchProjectId")
     private ResearchProject researchProject;
 
     @OneToOne(mappedBy = "laboratoryTest")

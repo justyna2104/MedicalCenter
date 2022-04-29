@@ -1,11 +1,11 @@
 package com.example.MedicalCenter.api;
 
-import com.example.MedicalCenter.model.Patient;
 import com.example.MedicalCenter.model.ResearchProject;
-import com.example.MedicalCenter.service.ResearchProjectService;
+import com.example.MedicalCenter.service.IResearchProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -15,16 +15,21 @@ public class ResearchProjectController {
 
 
     @Autowired
-    private ResearchProjectService researchProjectService;
+    private IResearchProjectService researchProjectService;
 
     @PostMapping("/createResearchProject")
     public void createResearchProject(@RequestBody ResearchProject researchProject){
         researchProjectService.createResearchProject(researchProject);
     }
 
-    @PutMapping("/updateResearchProject")
-    public void updateResearchProject(@RequestBody ResearchProject researchProject){
-        researchProjectService.updateResearchProject(researchProject);
+    @PostMapping("/updateResearchProjectDate")
+    public void updateDateOfStart(@RequestParam(name = "id") long id, @RequestBody LocalDate dateOfStart){
+        researchProjectService.updateDateOfStart(id, dateOfStart);
+    }
+
+    @PostMapping("/updateResearchProjectDescription")
+    public void updateDescription(@RequestParam(name = "id") long id, @RequestBody String description){
+        researchProjectService.updateDescription(id, description);
     }
 
     @GetMapping("/getAllResearchProjects")

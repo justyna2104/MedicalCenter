@@ -3,7 +3,7 @@ package com.example.MedicalCenter.api;
 import com.example.MedicalCenter.model.Patient;
 import com.example.MedicalCenter.model.PersonalData;
 import com.example.MedicalCenter.repo.PatientRepository;
-import com.example.MedicalCenter.service.PatientService;
+import com.example.MedicalCenter.service.impl.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +25,14 @@ public class PatientController {
         patientService.registerPatient(personalData);
     }
 
-    @PutMapping("/updatePatient")
-    public void updatePatient(@RequestBody Patient patient){
-        patientService.updatePatient(patient);
+    @PutMapping("/updatePatientPersonalData")
+    public void updatePatientPeraonalData(@RequestParam(name = "id") long id, @RequestBody PersonalData personalData){
+        patientService.updatePatientPersonalData(id, personalData);
+    }
+
+    @GetMapping("/getPatientPersonalData")
+    public PersonalData getPatientPesronalData(@RequestParam(name ="id")  long id){
+       return patientService.getPatientsPersonalData(id);
     }
 
     @GetMapping("/getAllPatients")

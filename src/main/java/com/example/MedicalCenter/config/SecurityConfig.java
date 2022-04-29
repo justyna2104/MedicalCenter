@@ -16,11 +16,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/registerPatient").permitAll()
                 .antMatchers("/getAllPatients").permitAll()
-                .antMatchers("/updatePatient").permitAll()
+                .antMatchers("/updatePatientPersonalData").permitAll()
                 .antMatchers("/deletePatient").permitAll()
                 .antMatchers("/createResearchProject").permitAll()
                 .antMatchers("/getAllResearchProjects").permitAll()
-                .antMatchers("/updateResearchProject").permitAll()
+                .antMatchers("/updateResearchProjectDate").permitAll()
+                .antMatchers("/updateResearchProjectDescription").permitAll()
                 .antMatchers("/deleteResearchProject").permitAll()
                 .antMatchers("/addConsent").permitAll()
                 .antMatchers("/withdrawConsent").permitAll()
@@ -30,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/addTestResult").permitAll()
                 .antMatchers("/updateTestResult").permitAll()
                 .antMatchers("/deleteTestResult").permitAll()
+                .antMatchers("/getPatientPersonalData").permitAll()
                 .anyRequest().authenticated();
     }
 }

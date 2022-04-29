@@ -1,7 +1,6 @@
 package com.example.MedicalCenter.api;
 
-import com.example.MedicalCenter.service.ConsentService;
-import com.example.MedicalCenter.service.ResearchProjectService;
+import com.example.MedicalCenter.service.impl.ConsentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
