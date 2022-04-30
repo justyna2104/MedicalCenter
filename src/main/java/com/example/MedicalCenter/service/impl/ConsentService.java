@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -51,6 +52,7 @@ public class ConsentService implements IConsentService {
             LOGGER.info("Consent has been added");
     }
 
+    @Transactional
     @Override
     public void withdrawConsent(long id){
 
@@ -58,12 +60,17 @@ public class ConsentService implements IConsentService {
             ResearchProject researchProject = consent.getResearchProject();
             Patient patient = consent.getPatient();
             researchProject.getPatients().remove(patient);
+
+            Optional<ConsentImage> consentImage = consentImageRepository.findByConsentId(consent.getId());
+            consentImage.ifPresent(consentImage1 -> consentImageRepository.delete(consentImage1));
             consentRepository.delete(consent);
             LOGGER.info("Consent with id " + id + " has been removed. Patient is no longer part of the project");
         }, () -> {LOGGER.info("There's no consent with id " + id);
                 throw new ConsentNotFoundException("There's no consent with id " + id);});
     }
 
+
+    @Transactional
     @Override
     public void uploadImage(long consentId, MultipartFile multipartFile, String fileName){
         consentRepository.findById(consentId).ifPresentOrElse(consent -> {

@@ -15,8 +15,8 @@ public class LaboratoryTestController {
     @Autowired
     private LaboratoryTestService laboratoryTestService;
 
-    @PostMapping("/commissionLaboratoryTest")
-    public void commissionLaboratoryTest(@RequestParam(name = "patientId") long patientID, @RequestParam(name = "researchProjectId") long researchProjectId, @RequestBody LocalDateTime dateAndTime){
-        laboratoryTestService.commissionLaboratoryTest(patientID, researchProjectId, dateAndTime);
+    @PostMapping("/orderLaboratoryTest")
+    public void orderLaboratoryTest(@RequestParam(name = "patientId") long patientID, @RequestParam(name = "researchProjectId") long researchProjectId, @RequestBody LocalDateTime dateAndTime){
+        laboratoryTestService.orderLaboratoryTest(patientID, researchProjectId, dateAndTime);
     }
 }

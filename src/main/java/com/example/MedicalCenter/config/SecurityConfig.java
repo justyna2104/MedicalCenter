@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/withdrawConsent").permitAll()
                 .antMatchers("/bindPatientWithResearchProject").permitAll()
                 .antMatchers("/unbindPatientWithResearchProject").permitAll()
-                .antMatchers("/commissionLaboratoryTest").permitAll()
+                .antMatchers("/orderLaboratoryTest").permitAll()
                 .antMatchers("/addTestResult").permitAll()
                 .antMatchers("/updateTestResult").permitAll()
                 .antMatchers("/deleteTestResult").permitAll()

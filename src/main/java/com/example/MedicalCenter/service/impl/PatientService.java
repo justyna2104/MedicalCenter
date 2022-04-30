@@ -3,20 +3,16 @@ package com.example.MedicalCenter.service.impl;
 import com.example.MedicalCenter.exceptions.ConsentNotFoundException;
 import com.example.MedicalCenter.exceptions.PatientNotFoundException;
 import com.example.MedicalCenter.exceptions.ResearchProjectNotFoundException;
-import com.example.MedicalCenter.model.Consent;
-import com.example.MedicalCenter.model.Patient;
-import com.example.MedicalCenter.model.PersonalData;
-import com.example.MedicalCenter.model.ResearchProject;
-import com.example.MedicalCenter.repo.ConsentRepository;
-import com.example.MedicalCenter.repo.PatientRepository;
-import com.example.MedicalCenter.repo.ResearchProjectRepository;
+import com.example.MedicalCenter.model.*;
+import com.example.MedicalCenter.repo.*;
 import com.example.MedicalCenter.service.IPatientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+
 import java.util.List;
 
 
@@ -30,10 +26,21 @@ public class PatientService implements IPatientService {
     private PatientRepository patientRepository;
 
     @Autowired
-    private ConsentRepository consentRepository;
+    private PersonalDataRepository personalDataRepository;
+
+    @Autowired
+     private ConsentRepository consentRepository;
 
     @Autowired
     private ResearchProjectRepository researchProjectRepository;
+
+    @Autowired
+    private ConsentService consentService;
+
+    @Autowired
+    private LaboratoryTestRepository laboratoryTestRepository;
+
+    @Autowired TestResultService testResultService;
 
     @Override
     public void registerPatient(PersonalData personalData) {
@@ -60,9 +67,25 @@ public class PatientService implements IPatientService {
         return patientRepository.findAll();
     }
 
+    @Transactional
     @Override
     public void deletePatient(long id) {
         patientRepository.findById(id).ifPresentOrElse(patient -> {
+            PersonalData personalData = patient.getPersonalData();
+            personalDataRepository.delete(personalData);
+
+            for(Consent c : patient.getConsents()){
+                consentService.withdrawConsent(c.getId());
+            }
+
+            for(TestResult tr : patient.getTestResults()){
+                testResultService.deleteTestResult(tr.getId());
+            }
+
+            for(LaboratoryTest lt : patient.getLaboratoryTests()){
+                laboratoryTestRepository.delete(lt);
+            }
+
             patientRepository.delete(patient);
         }, () -> LOGGER.info("There's no patient with id " + id));
     }

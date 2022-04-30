@@ -9,5 +9,7 @@ import java.util.Optional;
 
 public interface ILaboratoryTestService {
 
-    void commissionLaboratoryTest(long patientId, long researchProjectId, LocalDateTime dateAndTime);
+    void orderLaboratoryTest(long patientId, long researchProjectId, LocalDateTime dateAndTime);
+
+    void deleteLaboratoryTest(long id);
 }

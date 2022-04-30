@@ -25,7 +25,7 @@ public class PatientController {
         patientService.registerPatient(personalData);
     }
 
-    @PutMapping("/updatePatientPersonalData")
+    @PostMapping("/updatePatientPersonalData")
     public void updatePatientPeraonalData(@RequestParam(name = "id") long id, @RequestBody PersonalData personalData){
         patientService.updatePatientPersonalData(id, personalData);
     }
@@ -49,5 +49,10 @@ public class PatientController {
     @PostMapping("/unbindPatientWithResearchProject")
     public void unbindPatientWithResearchProject(@RequestParam(name = "patientId") long patientId, @RequestParam(name = "researchProjectId") long researchProjectId){
         patientService.unbindPatientWithResearchProject(patientId, researchProjectId);
+    }
+
+    @PostMapping("/deletePatient")
+    public void deletePatient(@RequestParam(name = "id") long id){
+        patientService.deletePatient(id);
     }
 }

@@ -1,12 +1,11 @@
 package com.example.MedicalCenter.service.impl;
 
-import com.example.MedicalCenter.model.Patient;
-import com.example.MedicalCenter.model.PersonalData;
-import com.example.MedicalCenter.model.ResearchProject;
+import com.example.MedicalCenter.model.*;
 import com.example.MedicalCenter.repo.ResearchProjectRepository;
 import com.example.MedicalCenter.service.IResearchProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,6 +19,12 @@ public class ResearchProjectService implements IResearchProjectService {
 
     @Autowired
     private ResearchProjectRepository researchProjectRepository;
+
+    @Autowired
+    private LaboratoryTestService laboratoryTestService;
+
+    @Autowired
+    private ConsentService consentService;
 
     @Override
     public void createResearchProject(ResearchProject researchProject){
@@ -48,9 +53,19 @@ public class ResearchProjectService implements IResearchProjectService {
         return researchProjectRepository.findAll();
     }
 
+    @Transactional
     @Override
     public void deleteResearchProject(long id){
         researchProjectRepository.findById(id).ifPresentOrElse(researchProject -> {
+
+            for(LaboratoryTest lt : researchProject.getLaboratoryTests()){
+               laboratoryTestService.deleteLaboratoryTest(lt.getId());
+            }
+
+            for(Consent c : researchProject.getConsents()){
+                consentService.withdrawConsent(c.getId());
+            }
+
             researchProjectRepository.delete(researchProject);
         }, () -> LOGGER.info("There's no research project with id " + id));
     }
